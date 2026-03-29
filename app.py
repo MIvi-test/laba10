@@ -28,11 +28,11 @@ def coding_bit(data_bits: str, len_block: int):
 
         for i_p in range(parity_count):
             p_pos = 2**i_p
-            parity_val = 0
+            parity_value = 0
             for j, bit in enumerate(res_list, start=1):
                 if j & p_pos:
-                    parity_val ^= int(bit)
-            res_list[p_pos - 1] = str(parity_val)
+                    parity_value ^= int(bit)
+            res_list[p_pos - 1] = str(parity_value)
 
         encoded_total += "".join(res_list)
     return encoded_total
@@ -62,11 +62,11 @@ def decoding_bit(encoded_bits: str, len_block: int):
         if syndrome != 0:
             if syndrome <= len(block):
                 print(
-                    f"[*] Блок {b_idx}: Найдена ошибка в бите {syndrome}. Исправляю..."
+                    f"[*] Блок {b_idx}: ошибка в бите {syndrome}."
                 )
                 block[syndrome - 1] = "1" if block[syndrome - 1] == "0" else "0"
             else:
-                print(f"[!] Блок {b_idx}: Синдром {syndrome} вне диапазона!")
+                print(f"[!] Блок {b_idx}: Синдром {syndrome} вне диапазона")
 
         for j, bit in enumerate(block, start=1):
             if (j & (j - 1)) != 0:
@@ -76,6 +76,8 @@ def decoding_bit(encoded_bits: str, len_block: int):
 
 
 if __name__ == "__main__":
+
+    print(coding_bit("1000111011101010", len("1000111011101010")))
 
     if len(sys.argv) != 2:
         print("Usage: python3 app.py <len block>")

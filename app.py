@@ -28,11 +28,11 @@ def coding_bit(data_bits: str, len_block: int):
 
         for i_p in range(parity_count):
             p_pos = 2**i_p
-            parity_val = 0
+            parity_value = 0
             for j, bit in enumerate(res_list, start=1):
                 if j & p_pos:
-                    parity_val ^= int(bit)
-            res_list[p_pos - 1] = str(parity_val)
+                    parity_value ^= int(bit)
+            res_list[p_pos - 1] = str(parity_value)
 
         encoded_total += "".join(res_list)
     return encoded_total

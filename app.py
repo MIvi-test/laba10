@@ -1,5 +1,5 @@
 import sys
-
+from math import ceil
 
 def hamming_parity_count(data_len: int) -> int:
     r = 0
@@ -9,8 +9,8 @@ def hamming_parity_count(data_len: int) -> int:
 
 
 def coding_bit(data_bits: str, len_block: int):
-    parity_count = hamming_parity_count(len_block)
     encoded_total = ""
+    parity_count = hamming_parity_count(len_block)
 
     for i in range(0, len(data_bits), len_block):
         block = data_bits[i : i + len_block]
@@ -19,7 +19,7 @@ def coding_bit(data_bits: str, len_block: int):
 
         res_list = []
         data_idx = 0
-        for pos in range(1, len_block + parity_count + 1):
+        for pos in range(1, (len_block + parity_count + 1)):
             if (pos & (pos - 1)) == 0:
                 res_list.append("0")
             else:
@@ -62,11 +62,11 @@ def decoding_bit(encoded_bits: str, len_block: int):
         if syndrome != 0:
             if syndrome <= len(block):
                 print(
-                    f"[*] Блок {b_idx}: Найдена ошибка в бите {syndrome}. Исправляю..."
+                    f"[*] Блок {b_idx}: Ошибка в бите {syndrome}."
                 )
                 block[syndrome - 1] = "1" if block[syndrome - 1] == "0" else "0"
             else:
-                print(f"[!] Блок {b_idx}: Синдром {syndrome} вне диапазона!")
+                print(f"[!] Блок {b_idx}: Синдром {syndrome} вне диапазона")
 
         for j, bit in enumerate(block, start=1):
             if (j & (j - 1)) != 0:
@@ -97,7 +97,7 @@ if __name__ == "__main__":
                 for i in range(0, len(encoded_str), 8):
                     byte_str = encoded_str[i : i + 8].ljust(8, "0")
                     f.write(bytes([int(byte_str, 2)]))
-            print("Закодировано.")
+            print(f"Закодировано. {ceil(len(encoded_str) / 8)} байт")
 
         elif action == "2":
             with open("code_file.txt", "rb") as f:
